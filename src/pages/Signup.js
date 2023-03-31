@@ -20,9 +20,6 @@ const Signup = () => {
   /*
   handleChangeState 함수는 입력한 이메일과 비밀번호 값을 state 객체에 업데이트합니다. 
   onChange 이벤트가 발생할 때마다 이 함수가 호출되어 입력한 값을 저장합니다. 
-  이를 통해 checkValid 함수에서 이메일과 비밀번호를 확인할 수 있습니다. 
-  이 함수를 사용하지 않으면, checkValid 함수에서 입력한 값을 가져오기 위해 document.querySelector와 같은 DOM 조작 함수를 사용해야 합니다. 
-  이는 React에서 추천하지 않는 방법입니다. 
   handleChangeState 함수를 사용하여 state 객체에 입력한 값을 저장하면, React에서 상태 관리를 쉽게 할 수 있습니다.
   */
 
