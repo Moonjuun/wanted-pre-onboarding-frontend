@@ -30,9 +30,34 @@ const Signup = () => {
     });
   };
 
-  const signup = () => {
-    alert("회원가입 성공");
-    navigate("/signin");
+  const signup = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(
+        "https://pre-onboarding-selection-task.shop/auth/signup",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            email: state.email,
+            password: state.password,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem("jwt", data.token);
+        navigate("/sgin");
+      } else {
+        alert("로그인 실패");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("로그인 실패");
+    }
   };
 
   return (
