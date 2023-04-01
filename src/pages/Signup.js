@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -30,33 +31,32 @@ const Signup = () => {
     });
   };
 
-  const signup = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(
+      const response = await axios.post(
         "https://pre-onboarding-selection-task.shop/auth/signup",
         {
-          method: "POST",
-          body: JSON.stringify({
-            email: state.email,
-            password: state.password,
-          }),
+          email: state.email,
+          password: state.password,
+        },
+        {
           headers: {
             "Content-Type": "application/json",
           },
         }
       );
 
-      if (response.ok) {
-        const data = await response.json();
+      if (response.status === 201) {
+        const data = response.data;
         localStorage.setItem("jwt", data.token);
         navigate("/sgin");
       } else {
-        alert("로그인 실패");
+        alert("error, 나중에 다시 시도해주세요!");
       }
     } catch (error) {
       console.error(error);
-      alert("로그인 실패");
+      alert("error, 나중에 다시 시도해주세요!");
     }
   };
 
@@ -90,7 +90,7 @@ const Signup = () => {
       </section>
       <button
         data-testid="signup-button"
-        onClick={signup}
+        onClick={handleSubmit}
         disabled={!state.email.includes("@") || state.password.length < 8}
       >
         회원가입

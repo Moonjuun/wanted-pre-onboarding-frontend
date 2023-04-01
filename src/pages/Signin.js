@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Signin = () => {
   const [state, setState] = useState({
@@ -20,22 +21,21 @@ const Signin = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch(
+      const response = await axios.post(
         "https://pre-onboarding-selection-task.shop/auth/signin",
         {
-          method: "POST",
-          body: JSON.stringify({
-            email: state.email,
-            password: state.password,
-          }),
+          email: state.email,
+          password: state.password,
+        },
+        {
           headers: {
             "Content-Type": "application/json",
           },
         }
       );
 
-      if (response.ok) {
-        const data = await response.json();
+      if (response.status === 200) {
+        const data = response.data;
         localStorage.setItem("jwt", data.token);
         navigate("/todo");
       } else {
