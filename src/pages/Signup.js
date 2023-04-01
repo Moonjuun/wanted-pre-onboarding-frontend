@@ -1,9 +1,16 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Signup = () => {
   const navigate = useNavigate();
+
+  // 리다이렉트
+  useEffect(() => {
+    if (localStorage.getItem("access_token")) {
+      navigate("/todo", { replace: true });
+    }
+  }, [navigate]);
 
   /*
     useRef는 React에서 DOM 요소에 대한 참조를 생성하기 위해 사용됩니다. 
@@ -31,11 +38,13 @@ const Signup = () => {
     });
   };
 
+  // 회원가입 API
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const BASE_URL = "https://pre-onboarding-selection-task.shop/";
     try {
       const response = await axios.post(
-        "https://pre-onboarding-selection-task.shop/auth/signup",
+        `${BASE_URL}auth/signup`,
         {
           email: state.email,
           password: state.password,
@@ -49,8 +58,12 @@ const Signup = () => {
 
       if (response.status === 201) {
         const data = response.data;
-        localStorage.setItem("jwt", data.token);
-        navigate("/sgin");
+        localStorage.setItem("jwt", data.access_token);
+        alert("회원가입이 완료되었습니다!");
+        console.log(response);
+        navigate("/signin", { replace: true });
+      } else if (response.status === 400) {
+        alert(response.data.message);
       } else {
         alert("error, 나중에 다시 시도해주세요!");
       }

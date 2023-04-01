@@ -1,14 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Signin = () => {
+  const navigate = useNavigate();
+
+  // 리다이렉트
+  useEffect(() => {
+    if (localStorage.getItem("access_token")) {
+      navigate("/todo", { replace: true });
+    }
+  }, [navigate]);
+
   const [state, setState] = useState({
     email: "",
     password: "",
   });
-
-  const navigate = useNavigate();
 
   const handleChangeState = (e) => {
     setState({
@@ -17,6 +24,7 @@ const Signin = () => {
     });
   };
 
+  // 로그인 API
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -36,7 +44,8 @@ const Signin = () => {
 
       if (response.status === 200) {
         const data = response.data;
-        localStorage.setItem("jwt", data.token);
+        localStorage.setItem("jwt", data.access_token);
+        console.log(response);
         navigate("/todo");
       } else {
         alert("로그인 실패");
