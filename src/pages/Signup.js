@@ -41,7 +41,7 @@ const Signup = () => {
   // 회원가입 API
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const BASE_URL = "https://pre-onboarding-selection-task.shop/";
+    const BASE_URL = "https://www.pre-onboarding-selection-task.shop/";
     try {
       const response = await axios.post(
         `${BASE_URL}auth/signup`,

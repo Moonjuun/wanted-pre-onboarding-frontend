@@ -30,7 +30,7 @@ const Signin = () => {
 
     try {
       const response = await axios.post(
-        "https://pre-onboarding-selection-task.shop/auth/signin",
+        "https://www.pre-onboarding-selection-task.shop/auth/signin",
         {
           email: state.email,
           password: state.password,
