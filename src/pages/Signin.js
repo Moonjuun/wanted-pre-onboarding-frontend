@@ -29,27 +29,27 @@ const Signin = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        "https://www.pre-onboarding-selection-task.shop/auth/signin",
-        {
-          email: state.email,
-          password: state.password,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
+      await axios
+        .post(
+          "https://www.pre-onboarding-selection-task.shop/auth/signin",
+          {
+            email: state.email,
+            password: state.password,
           },
-        }
-      );
-
-      if (response.status === 200) {
-        const data = response.data;
-        localStorage.setItem("jwt", data.access_token);
-        console.log(response);
-        navigate("/todo");
-      } else {
-        alert("로그인 실패");
-      }
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((result) => {
+          if (result.status === 200) {
+            const data = result.data;
+            localStorage.setItem("jwt", data.access_token);
+            console.log(result);
+            navigate("/todo");
+          }
+        });
     } catch (error) {
       console.error(error);
       alert("로그인 실패");

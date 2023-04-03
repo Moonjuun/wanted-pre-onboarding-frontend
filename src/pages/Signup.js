@@ -43,33 +43,31 @@ const Signup = () => {
     e.preventDefault();
     const BASE_URL = "https://www.pre-onboarding-selection-task.shop/";
     try {
-      const response = await axios.post(
-        `${BASE_URL}auth/signup`,
-        {
-          email: state.email,
-          password: state.password,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
+      await axios
+        .post(
+          `${BASE_URL}auth/signup`,
+          {
+            email: state.email,
+            password: state.password,
           },
-        }
-      );
-
-      if (response.status === 201) {
-        const data = response.data;
-        localStorage.setItem("jwt", data.access_token);
-        alert("회원가입이 완료되었습니다!");
-        console.log(response);
-        navigate("/signin", { replace: true });
-      } else if (response.status === 400) {
-        alert(response.data.message);
-      } else {
-        alert("error, 나중에 다시 시도해주세요!");
-      }
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((result) => {
+          if (result.status === 201) {
+            const data = result.data;
+            localStorage.setItem("jwt", data.access_token);
+            alert("회원가입이 완료되었습니다!");
+            console.log(result);
+            navigate("/signin", { replace: true });
+          }
+        });
     } catch (error) {
       console.error(error);
-      alert("error, 나중에 다시 시도해주세요!");
+      alert(error.response.data.message);
     }
   };
 
