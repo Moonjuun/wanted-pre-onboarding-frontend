@@ -4,7 +4,10 @@ import axios from "axios";
 const Todo = () => {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
+  const [editingTodoId, setEditingTodoId] = useState(null);
+  const [editingTodoText, setEditingTodoText] = useState("");
 
+  // todo list
   const getTodos = async () => {
     try {
       const access_token = localStorage.getItem("jwt");
@@ -24,6 +27,7 @@ const Todo = () => {
     getTodos();
   }, []);
 
+  // 추가
   const createTodo = async (newTodo) => {
     try {
       const access_token = localStorage.getItem("jwt");
@@ -62,9 +66,10 @@ const Todo = () => {
     }
   };
 
+  // 삭제
   const deleteTodo = (id) => {
     const access_token = localStorage.getItem("jwt");
-    const response = axios
+    axios
       .delete(`https://www.pre-onboarding-selection-task.shop/todos/${id}`, {
         headers: {
           Authorization: `Bearer ${access_token}`,
@@ -78,23 +83,102 @@ const Todo = () => {
       });
   };
 
+  // 수정
+  const updateTodo = async (id, text) => {
+    try {
+      const access_token = localStorage.getItem("jwt");
+      await axios
+        .put(
+          `https://www.pre-onboarding-selection-task.shop/todos/${id}`,
+          {
+            todo: text,
+            isCompleted: false,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${access_token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((result) => {
+          if (result.status === 200) {
+            console.log("수정완료");
+            setTodos((prevTodos) =>
+              prevTodos.map((todo) => {
+                if (todo.id === id) {
+                  todo.todo = text;
+                }
+                return todo;
+              })
+            );
+            setEditingTodoId(null);
+            setEditingTodoText("");
+          }
+        });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleEditTodoChange = (e) => {
+    setEditingTodoText(e.target.value);
+  };
+
+  const handleEditTodoSubmit = async (e) => {
+    e.preventDefault();
+    const isTodoValid = editingTodoText.trim().length > 0;
+    if (isTodoValid) {
+      updateTodo(editingTodoId, editingTodoText);
+    }
+  };
+
+  const handleEditTodoCancel = () => {
+    setEditingTodoId(null);
+    setEditingTodoText("");
+  };
+
   return (
     <div>
       <h1>이 곳은 TODO 화면입니다</h1>
       <div>
         {todos.map((todo) => (
           <li key={todo.id}>
-            <label>
-              <input type="checkbox" defaultChecked={todo.isCompleted} />
-              <span>{todo.todo}</span>
-            </label>
-            <button data-testid="modify-button">수정</button>
-            <button
-              data-testid="delete-button"
-              onClick={() => deleteTodo(todo.id)}
-            >
-              삭제
-            </button>
+            {editingTodoId === todo.id ? (
+              <form onSubmit={handleEditTodoSubmit}>
+                <input
+                  type="text"
+                  value={editingTodoText}
+                  onChange={handleEditTodoChange}
+                />
+                <button type="submit">제출</button>
+                <button type="button" onClick={handleEditTodoCancel}>
+                  취소
+                </button>
+              </form>
+            ) : (
+              <>
+                <label>
+                  <input type="checkbox" defaultChecked={todo.isCompleted} />
+                  <span>{todo.todo}</span>
+                </label>
+                <button
+                  data-testid="modify-button"
+                  onClick={() => {
+                    setEditingTodoId(todo.id);
+                    setEditingTodoText(todo.todo);
+                  }}
+                >
+                  수정
+                </button>
+                <button
+                  data-testid="delete-button"
+                  onClick={() => deleteTodo(todo.id)}
+                >
+                  삭제
+                </button>
+              </>
+            )}
           </li>
         ))}
       </div>
