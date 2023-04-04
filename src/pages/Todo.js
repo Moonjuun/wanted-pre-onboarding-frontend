@@ -10,6 +10,14 @@ const Todo = () => {
   const [editingTodoId, setEditingTodoId] = useState(null);
   const [editingTodoText, setEditingTodoText] = useState("");
 
+
+  // 리다이렉트
+  useEffect(() => {
+    if (!localStorage.getItem("jwt")) {
+      navigate("/signin", { replace: true });
+    }
+  }, [navigate]);
+
   // todo list
   const getTodos = async () => {
     try {

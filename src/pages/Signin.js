@@ -7,7 +7,7 @@ const Signin = () => {
 
   // 리다이렉트
   useEffect(() => {
-    if (localStorage.getItem("access_token")) {
+    if (localStorage.getItem("jwt")) {
       navigate("/todo", { replace: true });
     }
   }, [navigate]);
