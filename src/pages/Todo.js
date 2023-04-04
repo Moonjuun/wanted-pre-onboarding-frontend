@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Button from "../components/Button";
 
 const Todo = () => {
+  const navigate = useNavigate();
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
   const [editingTodoId, setEditingTodoId] = useState(null);
@@ -46,6 +49,7 @@ const Todo = () => {
         )
         .then((result) => {
           if (result.status === 201) {
+            console.log("추가완료");
             setTodos([...todos, result.data]); // 상태 업데이트
             setNewTodo("");
           }
@@ -138,9 +142,30 @@ const Todo = () => {
     setEditingTodoText("");
   };
 
+  // 로그아웃
+  function logout() {
+    // 로컬스토리지에서 JWT 토큰을 삭제합니다.
+    localStorage.removeItem("jwt");
+    // "/" 로 이동합니다.
+    navigate("/");
+  }
+
   return (
     <div>
-      <h1>이 곳은 TODO 화면입니다</h1>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <h1>TODO List</h1>
+        <Button
+          text={"로그아웃"}
+          type={"negative"}
+          onClick={logout}
+        ></Button>{" "}
+      </div>
       <div>
         {todos.map((todo) => (
           <li key={todo.id}>
