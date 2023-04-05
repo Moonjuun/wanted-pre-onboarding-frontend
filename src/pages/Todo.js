@@ -158,7 +158,7 @@ const Todo = () => {
   }
 
   return (
-    <div>
+    <div className="Todo">
       <div
         style={{
           display: "flex",

@@ -114,3 +114,21 @@ header .head_text {
 .Signup_password {
   margin-bottom: 10px;
 }
+
+/* Signin */
+.Signin {
+  text-align: center;
+}
+
+.Signin_email {
+  margin-bottom: 10px;
+}
+
+.Signin_password {
+  margin-bottom: 10px;
+}
+
+/* Todo */
+.Todo {
+  text-align: left;
+}
