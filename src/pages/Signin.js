@@ -57,7 +57,7 @@ const Signin = () => {
   };
 
   return (
-    <div className="Login">
+    <div className="Signin">
       <h1>로그인</h1>
       <form onSubmit={handleSubmit}>
         <section>
@@ -66,7 +66,7 @@ const Signin = () => {
             name="email"
             value={state.email}
             data-testid="email-input"
-            className="Login_email"
+            className="Signin_email"
             placeholder="이메일"
             onChange={handleChangeState}
           />
@@ -77,13 +77,13 @@ const Signin = () => {
             name="password"
             value={state.password}
             data-testid="password-input"
-            className="Login_password"
+            className="Signin_password"
             placeholder="비밀번호"
             type="password"
             onChange={handleChangeState}
           />
         </section>
-        <button data-testid="login-button" type="submit">
+        <button data-testid="signin-button" type="submit">
           로그인
         </button>
       </form>

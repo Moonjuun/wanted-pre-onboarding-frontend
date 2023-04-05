@@ -10,7 +10,6 @@ const Todo = () => {
   const [editingTodoId, setEditingTodoId] = useState(null);
   const [editingTodoText, setEditingTodoText] = useState("");
 
-
   // 리다이렉트
   useEffect(() => {
     if (!localStorage.getItem("jwt")) {
@@ -181,11 +180,18 @@ const Todo = () => {
               <form onSubmit={handleEditTodoSubmit}>
                 <input
                   type="text"
+                  data-testid="modify-input"
                   value={editingTodoText}
                   onChange={handleEditTodoChange}
                 />
-                <button type="submit">제출</button>
-                <button type="button" onClick={handleEditTodoCancel}>
+                <button type="submit" data-testid="submit-button">
+                  제출
+                </button>
+                <button
+                  type="button"
+                  data-testid="cancel-button"
+                  onClick={handleEditTodoCancel}
+                >
                   취소
                 </button>
               </form>
@@ -196,7 +202,6 @@ const Todo = () => {
                   <span>{todo.todo}</span>
                 </label>
                 <button
-                  data-testid="modify-button"
                   onClick={() => {
                     setEditingTodoId(todo.id);
                     setEditingTodoText(todo.todo);
@@ -204,12 +209,7 @@ const Todo = () => {
                 >
                   수정
                 </button>
-                <button
-                  data-testid="delete-button"
-                  onClick={() => deleteTodo(todo.id)}
-                >
-                  삭제
-                </button>
+                <button onClick={() => deleteTodo(todo.id)}>삭제</button>
               </>
             )}
           </li>
