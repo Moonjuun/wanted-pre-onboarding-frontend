@@ -58,8 +58,6 @@ const Signup = () => {
         )
         .then((result) => {
           if (result.status === 201) {
-            const data = result.data;
-            localStorage.setItem("jwt", data.access_token);
             alert("회원가입이 완료되었습니다!");
             console.log(result);
             navigate("/signin", { replace: true });
