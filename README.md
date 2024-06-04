@@ -2,7 +2,7 @@
 <img src="https://user-images.githubusercontent.com/90181028/218138454-4a90af76-170d-464c-b31b-0235301dbda1.png" height="200px" />
 </div>
 
-# 원티드 프리온보딩 프론트엔드 인턴쉽 - 선발 과제
+# 원티드 2023년 4월 프리온보딩 프론트엔드 인턴쉽 - 선발 과제
 
 ## [Deploy](https://wanted-pre-onboarding-frontend-moonjun.firebaseapp.com)&nbsp;&nbsp;&nbsp;&nbsp;
 
